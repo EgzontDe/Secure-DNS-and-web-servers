@@ -286,4 +286,63 @@ cd testssl.sh
 
 These headers are very important to enhance the security of a web application by providing built-in protection against various types of web attacks.
 
+## Docker Setup
 
+This project has been containerized using Docker for easier deployment and consistency across environments.
+
+### Docker Files
+
+- **Dockerfile**: Contains the instructions to build the Docker image with Knot DNS and Apache
+- **docker-compose.yml**: Defines the service, network, and volume configuration
+- **entrypoint.sh**: Startup script for the container services
+
+### Directory Structure for Docker
+
+```
+├── Dockerfile
+├── docker-compose.yml
+├── entrypoint.sh
+├── config/
+│   ├── knot/
+│   │   ├── knot.conf
+│   │   └── five.secu23.fun.zone
+│   ├── apache2/
+│   │   └── www.five.secu23.fun.conf
+│   └── ssl/
+│       └── options-ssl-apache.conf
+└── www/
+    └── five.secu23.fun/
+        └── index.html
+```
+
+### How to Use Docker Setup
+
+1. **Create the directory structure**:
+   ```bash
+   mkdir -p config/knot config/apache2 config/ssl www/five.secu23.fun
+   ```
+
+2. **Copy configuration files**:
+   - Copy your Knot DNS configuration to `config/knot/`
+   - Copy your Apache configuration to `config/apache2/`
+   - Copy your SSL configuration to `config/ssl/`
+   - Add your website files to `www/five.secu23.fun/`
+
+3. **Build and start the containers**:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Stop the containers**:
+   ```bash
+   docker-compose down
+   ```
+
+### SSL Certificates in Docker
+
+For development, you can use self-signed certificates. For production:
+
+1. **Option 1**: Obtain certificates before building the container and mount them
+2. **Option 2**: Use certbot inside the container (requires the container to be publicly accessible)
+
+Note: The container is configured with the IP address 172.28.43.45 to match your original configuration. Adjust this in docker-compose.yml if needed.
